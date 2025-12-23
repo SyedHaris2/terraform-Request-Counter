@@ -14,6 +14,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: show role ARN
+        run: |
+          echo "Secret AWS_ACCOUNT: '${{ secrets.AWS_ACCOUNT }}'"
+          echo "Full role ARN: 'arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-actions-terraform'"
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: arn:aws:iam::${{ secrets.AWS_ACCOUNT }}:role/github-actions-terraform
