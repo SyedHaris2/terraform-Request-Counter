@@ -20,12 +20,12 @@ module "alb" {
 }
 
 module "redis" {
-  source              = "./modules/redis"
-  project             = var.app_name
-  environment         = var.environment
-  vpc_id              = module.vpc.vpc_id
-  private_subnet_ids  = module.vpc.private_subnet_ids
-  container_sg_id     = module.ecs.ecs_sg_id
+  source             = "./modules/redis"
+  project            = var.app_name
+  environment        = var.environment
+  vpc_id             = module.vpc.vpc_id
+  private_subnet_ids = module.vpc.private_subnet_ids
+  container_sg_id    = module.ecs.ecs_sg_id
 }
 
 module "ecs" {
@@ -44,7 +44,7 @@ module "ecs" {
   target_group_arn      = module.alb.tg_arn
   execution_role_arn    = aws_iam_role.ecs_execution.arn
   task_role_arn         = aws_iam_role.ecs_task.arn
-   alb_security_group_id = module.alb.alb_sg_id
+  alb_security_group_id = module.alb.alb_sg_id
 }
 
 resource "aws_ecr_repository" "app" {
@@ -66,8 +66,8 @@ data "aws_iam_policy_document" "ecs_assume" {
 }
 
 resource "aws_iam_role" "ecs_execution" {
-  name_prefix        = "${var.app_name}-exec-"
-  assume_role_policy = data.aws_iam_policy_document.ecs_assume.json
+  name_prefix         = "${var.app_name}-exec-"
+  assume_role_policy  = data.aws_iam_policy_document.ecs_assume.json
   managed_policy_arns = ["arn:aws:iam::aws:policy/service-role/AmazonECSTaskExecutionRolePolicy"]
 }
 

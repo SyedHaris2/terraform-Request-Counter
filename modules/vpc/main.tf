@@ -4,7 +4,7 @@ resource "aws_vpc" "main" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
-  tags = { Name = "${var.project}-${var.environment}-vpc" }
+  tags                 = { Name = "${var.project}-${var.environment}-vpc" }
 }
 
 resource "aws_subnet" "public" {
@@ -13,7 +13,7 @@ resource "aws_subnet" "public" {
   cidr_block              = var.public_cidrs[count.index]
   availability_zone       = data.aws_availability_zones.available.names[count.index]
   map_public_ip_on_launch = true
-  tags = { Name = "${var.project}-${var.environment}-public-${count.index}" }
+  tags                    = { Name = "${var.project}-${var.environment}-public-${count.index}" }
 }
 
 resource "aws_subnet" "private" {
@@ -21,7 +21,7 @@ resource "aws_subnet" "private" {
   vpc_id            = aws_vpc.main.id
   cidr_block        = var.private_cidrs[count.index]
   availability_zone = data.aws_availability_zones.available.names[count.index]
-  tags = { Name = "${var.project}-${var.environment}-private-${count.index}" }
+  tags              = { Name = "${var.project}-${var.environment}-private-${count.index}" }
 }
 
 resource "aws_internet_gateway" "igw" {
@@ -52,7 +52,7 @@ resource "aws_route_table" "private" {
   count  = 2
   vpc_id = aws_vpc.main.id
   route {
-    cidr_block = "0.0.0.0/0"
+    cidr_block     = "0.0.0.0/0"
     nat_gateway_id = aws_nat_gateway.nat[count.index].id
   }
 }

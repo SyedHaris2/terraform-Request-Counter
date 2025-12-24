@@ -21,8 +21,8 @@ resource "aws_ecs_task_definition" "app" {
   task_role_arn            = var.task_role_arn
 
   container_definitions = jsonencode([{
-    name  = var.project
-    image = "${var.ecr_repo_url}:latest"
+    name         = var.project
+    image        = "${var.ecr_repo_url}:latest"
     portMappings = [{ containerPort = var.container_port, protocol = "tcp" }]
     environment = [
       { name = "REDIS_HOST", value = var.redis_endpoint },
@@ -48,7 +48,7 @@ resource "aws_ecs_service" "app" {
   launch_type     = "FARGATE"
   network_configuration {
     subnets          = var.private_subnet_ids
-    security_groups = [var.alb_security_group_id]
+    security_groups  = [var.alb_security_group_id]
     assign_public_ip = false
   }
   load_balancer {
@@ -63,10 +63,10 @@ resource "aws_security_group" "ecs_tasks" {
   name_prefix = "${var.project}-${var.environment}-ecs-sg"
   vpc_id      = var.vpc_id
   ingress {
-    from_port   = var.container_port
-    to_port     = var.container_port
-    protocol    = "tcp"
-    security_groups = [var.alb_security_group_id] 
+    from_port       = var.container_port
+    to_port         = var.container_port
+    protocol        = "tcp"
+    security_groups = [var.alb_security_group_id]
   }
   egress {
     from_port   = 0

@@ -1,8 +1,8 @@
-resource "random_password" "auth" { 
-  length = 32
-  special = true
-  override_special = "_-" 
-  }
+resource "random_password" "auth" {
+  length           = 32
+  special          = true
+  override_special = "_-"
+}
 
 resource "aws_secretsmanager_secret" "redis" {
   name = "${var.project}-${var.environment}-redis-auth-${formatdate("YYYYMMDDhhmmss", timestamp())}"
