@@ -5,7 +5,7 @@ resource "random_password" "auth" {
   }
 
 resource "aws_secretsmanager_secret" "redis" {
-  name = "${var.project}-${var.environment}-redis-auth"
+  name = "${var.project}-${var.environment}-redis-auth-${formatdate("YYYYMMDDhhmmss", timestamp())}"
 }
 
 resource "aws_secretsmanager_secret_version" "redis" {
